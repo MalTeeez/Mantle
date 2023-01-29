@@ -3,15 +3,16 @@ package mantle.pulsar.internal;
 import java.io.*;
 import java.util.*;
 
+import mantle.pulsar.config.IConfiguration;
+import mantle.pulsar.internal.logging.ILogger;
+import mantle.pulsar.pulse.PulseMeta;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import cpw.mods.fml.common.Loader;
-import mantle.pulsar.config.IConfiguration;
-import mantle.pulsar.internal.logging.ILogger;
-import mantle.pulsar.pulse.PulseMeta;
 
 /**
  * Default Gson Configuration helper.
@@ -34,7 +35,7 @@ public class Configuration implements IConfiguration {
      * Do NOT make this the same as the overall mod configuration; it will clobber it!
      *
      * @param confName The config file name (without path or .json suffix)
-     * @param logger The logger to send debug info to.
+     * @param logger   The logger to send debug info to.
      */
     public Configuration(String confName, ILogger logger) {
         this.confPath = Loader.instance().getConfigDir().toString() + File.separator + confName + ".json";
@@ -98,7 +99,7 @@ public class Configuration implements IConfiguration {
     private Map<String, ConfigEntry> parseV0Config(File f) throws Exception {
         try {
             JsonReader reader = new JsonReader(new InputStreamReader(new FileInputStream(f)));
-            Map<String, Boolean> m = gson.fromJson(reader, new TypeToken<HashMap<String, Boolean>>(){}.getType()); // NASTY!
+            Map<String, Boolean> m = gson.fromJson(reader, new TypeToken<HashMap<String, Boolean>>() {}.getType()); // NASTY!
             if (m == null) {
                 throw new NullPointerException("Gson returned null.");
             }
@@ -116,7 +117,8 @@ public class Configuration implements IConfiguration {
         try {
             JsonReader reader = new JsonReader(new InputStreamReader(new FileInputStream(f)));
             GsonConfig c = gson.fromJson(reader, GsonConfig.class);
-            if (c.getConfigVersion() > 1) throw new RuntimeException("Pulsar config is from a newer version! Remove it! " + f.getAbsolutePath());
+            if (c.getConfigVersion() > 1)
+                throw new RuntimeException("Pulsar config is from a newer version! Remove it! " + f.getAbsolutePath());
             if (c.getModules() == null) throw new IllegalArgumentException("Not a valid GsonConfig. Try v0 parsing.");
             return c.getModules();
         } catch (FileNotFoundException fnfe) {
@@ -140,6 +142,7 @@ public class Configuration implements IConfiguration {
      * Internal exception for an unreadable/unwritable config.
      */
     private static class FileNotReadWritableException extends RuntimeException {
+
         public FileNotReadWritableException(String message) {
             super(message);
         }

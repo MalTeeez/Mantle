@@ -4,6 +4,7 @@ import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.util.ResourceLocation;
 
 public class BookImage {
+
     public int height, width;
     public DynamicTexture texture;
     public ResourceLocation resource;

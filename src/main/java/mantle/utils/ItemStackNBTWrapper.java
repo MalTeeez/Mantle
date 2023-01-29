@@ -3,6 +3,7 @@ package mantle.utils;
 import net.minecraft.item.ItemStack;
 
 public class ItemStackNBTWrapper {
+
     public final ItemStack stack;
 
     public ItemStackNBTWrapper(ItemStack stack) {

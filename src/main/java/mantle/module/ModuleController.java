@@ -1,12 +1,14 @@
 package mantle.module;
 
-import cpw.mods.fml.common.Loader;
+import java.io.File;
+import java.util.ArrayList;
+
 import net.minecraftforge.common.config.Configuration;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.File;
-import java.util.ArrayList;
+import cpw.mods.fml.common.Loader;
 
 /**
  * Controller for mod compat modules.
@@ -14,11 +16,15 @@ import java.util.ArrayList;
  * @author Sunstrike <sun@sunstrike.io>
  * @author Arkan Emberwalker <arkan@emberwalker.cc>
  */
-@Deprecated //See PulseManager for replacement
+@Deprecated // See PulseManager for replacement
 public class ModuleController {
 
     private enum State {
-        WAITING, PREINIT, INIT, POSTINIT, DONE
+        WAITING,
+        PREINIT,
+        INIT,
+        POSTINIT,
+        DONE
     }
 
     private ArrayList<ILoadableModule> modules = new ArrayList<ILoadableModule>();
@@ -41,11 +47,12 @@ public class ModuleController {
      * Constructor for a config-using plugin loader
      *
      * @param confName The name for the configuration file (should end in .cfg)
-     * @param modName The human-readable name of the invoking mod. Used for logger construction.
+     * @param modName  The human-readable name of the invoking mod. Used for logger construction.
      */
     public ModuleController(String confName, String modName) {
         this.logger = LogManager.getLogger(modName + "-ModuleController");
-        this.config = new Configuration(new File(Loader.instance().getConfigDir().toString() + File.separator + confName));
+        this.config = new Configuration(
+                new File(Loader.instance().getConfigDir().toString() + File.separator + confName));
     }
 
     /**
@@ -102,8 +109,8 @@ public class ModuleController {
     /**
      * Unchecked handler for registering a module forcefully.
      *
-     * This version bypasses any config test; use registerModule where possible. This is only intended for modules
-     * the user is not allowed to configure (e.g. Mystcraft blacklist plugins).
+     * This version bypasses any config test; use registerModule where possible. This is only intended for modules the
+     * user is not allowed to configure (e.g. Mystcraft blacklist plugins).
      *
      * @param mod The module to attempt to register.
      * @return True on success, false on error.
@@ -119,7 +126,7 @@ public class ModuleController {
     private String getModId(Class<? extends ILoadableModule> mod) {
         String mID;
         try {
-            mID = (String)mod.getField("modId").get(null);
+            mID = (String) mod.getField("modId").get(null);
         } catch (Exception e) {
             logger.error("Module loading failed for class " + mod + "; modId field may be missing.");
             return null;

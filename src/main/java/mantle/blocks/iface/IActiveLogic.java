@@ -5,9 +5,9 @@ package mantle.blocks.iface;
  *
  * @author mDiyo
  */
-public interface IActiveLogic
-{
-    public boolean getActive ();
+public interface IActiveLogic {
 
-    public void setActive (boolean flag);
+    public boolean getActive();
+
+    public void setActive(boolean flag);
 }

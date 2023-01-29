@@ -1,6 +1,7 @@
 package mantle.client.pages;
 
 import mantle.lib.client.MantleClientRegistry;
+
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
@@ -10,24 +11,21 @@ import org.lwjgl.opengl.GL12;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-public class SidebarPage extends BookPage
-{
+public class SidebarPage extends BookPage {
+
     String text;
     String[] iconText;
     ItemStack[] icons;
 
     @Override
-    public void readPageFromXML (Element element)
-    {
+    public void readPageFromXML(Element element) {
         NodeList nodes = element.getElementsByTagName("text");
-        if (nodes != null)
-            text = nodes.item(0).getTextContent();
+        if (nodes != null) text = nodes.item(0).getTextContent();
 
         nodes = element.getElementsByTagName("item");
         iconText = new String[nodes.getLength()];
         icons = new ItemStack[nodes.getLength()];
-        for (int i = 0; i < nodes.getLength(); i++)
-        {
+        for (int i = 0; i < nodes.getLength(); i++) {
             NodeList children = nodes.item(i).getChildNodes();
             iconText[i] = children.item(1).getTextContent();
             icons[i] = MantleClientRegistry.getManualIcon(children.item(3).getTextContent());
@@ -35,10 +33,8 @@ public class SidebarPage extends BookPage
     }
 
     @Override
-    public void renderContentLayer (int localWidth, int localHeight, boolean isTranslatable)
-    {
-        if (isTranslatable)
-        {
+    public void renderContentLayer(int localWidth, int localHeight, boolean isTranslatable) {
+        if (isTranslatable) {
             text = StatCollector.translateToLocal(text);
         }
         manual.fonts.drawSplitString(text, localWidth, localHeight, 178, 0);
@@ -46,16 +42,18 @@ public class SidebarPage extends BookPage
         RenderHelper.enableGUIStandardItemLighting();
         manual.renderitem.zLevel = 100;
         int offset = text.length() / 4 + 10;
-        for (int i = 0; i < icons.length; i++)
-        {
-            if (isTranslatable)
-            {
+        for (int i = 0; i < icons.length; i++) {
+            if (isTranslatable) {
                 iconText[i] = StatCollector.translateToLocal(iconText[i]);
             }
-            manual.renderitem.renderItemIntoGUI(manual.fonts, manual.getMC().renderEngine, icons[i], localWidth + 8, localHeight + 18 * i + offset);
+            manual.renderitem.renderItemIntoGUI(
+                    manual.fonts,
+                    manual.getMC().renderEngine,
+                    icons[i],
+                    localWidth + 8,
+                    localHeight + 18 * i + offset);
             int yOffset = 39;
-            if (iconText[i].length() > 40)
-                yOffset = 34;
+            if (iconText[i].length() > 40) yOffset = 34;
             manual.fonts.drawSplitString(iconText[i], localWidth + 30, localHeight + 18 * i + offset, 140, 0);
         }
         manual.renderitem.zLevel = 0;

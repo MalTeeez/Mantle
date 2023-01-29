@@ -8,22 +8,20 @@ import net.minecraftforge.common.util.ForgeDirection;
  * @author Sunstrike <sun@sunstrike.io>
  */
 @SuppressWarnings("unused")
-public class DirectionUtils
-{
+public class DirectionUtils {
 
-    private DirectionUtils()
-    {
+    private DirectionUtils() {
         // No instantiation
     }
 
-    public static boolean isRightAngles (ForgeDirection a, ForgeDirection b)
-    {
+    public static boolean isRightAngles(ForgeDirection a, ForgeDirection b) {
         return a != b && a != b.getOpposite() && a != ForgeDirection.UNKNOWN && b != ForgeDirection.UNKNOWN;
     }
 
-    public static boolean isHorizontal (ForgeDirection a)
-    {
-        return a == ForgeDirection.EAST || a == ForgeDirection.NORTH || a == ForgeDirection.SOUTH || a == ForgeDirection.WEST;
+    public static boolean isHorizontal(ForgeDirection a) {
+        return a == ForgeDirection.EAST || a == ForgeDirection.NORTH
+                || a == ForgeDirection.SOUTH
+                || a == ForgeDirection.WEST;
     }
 
 }

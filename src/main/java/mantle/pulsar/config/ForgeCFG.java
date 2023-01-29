@@ -1,16 +1,19 @@
 package mantle.pulsar.config;
 
-import cpw.mods.fml.common.Loader;
+import java.io.*;
+
 import mantle.pulsar.pulse.PulseMeta;
+
 import net.minecraftforge.common.config.Configuration;
 
-import java.io.*;
+import cpw.mods.fml.common.Loader;
 
 /**
  * Mantle specific pulsar addon class to support using the forge CFG format for configurations
+ * 
  * @author progwml6
  */
-public class ForgeCFG implements IConfiguration{
+public class ForgeCFG implements IConfiguration {
 
     private static Configuration config;
     private final String confPath;
@@ -21,7 +24,7 @@ public class ForgeCFG implements IConfiguration{
      *
      * Do NOT make this the same as the overall mod configuration; it will clobber it!
      *
-     * @param confName The config file name (without path or .cfg suffix)
+     * @param confName    The config file name (without path or .cfg suffix)
      * @param description The description for the group that the config entries will be placed in.
      */
     public ForgeCFG(String confName, String description) {
@@ -37,13 +40,13 @@ public class ForgeCFG implements IConfiguration{
 
     @Override
     public boolean isModuleEnabled(PulseMeta meta) {
-        return config.get(description, meta.getId(), meta.isEnabled(), meta.getDescription()).getBoolean(meta.isEnabled());
+        return config.get(description, meta.getId(), meta.isEnabled(), meta.getDescription())
+                .getBoolean(meta.isEnabled());
     }
 
     @Override
     public void flush() {
-        if(config.hasChanged())
-            config.save();
+        if (config.hasChanged()) config.save();
     }
 
 }

@@ -4,6 +4,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class ItemMetaWrapper {
+
     public final Item item;
     public final Integer meta;
 
@@ -12,8 +13,7 @@ public class ItemMetaWrapper {
         this.meta = meta;
     }
 
-    public ItemMetaWrapper(ItemStack stack)
-    {
+    public ItemMetaWrapper(ItemStack stack) {
         this.item = stack.getItem();
         this.meta = stack.getItemDamage();
     }

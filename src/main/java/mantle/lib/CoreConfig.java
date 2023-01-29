@@ -6,10 +6,11 @@ import static mantle.lib.CoreRepo.modId;
 import java.io.File;
 import java.io.IOException;
 
-import org.apache.commons.io.FilenameUtils;
-
 import mantle.books.external.ZipLoader;
+
 import net.minecraftforge.common.config.Configuration;
+
+import org.apache.commons.io.FilenameUtils;
 
 /**
  * Mantle configuration handler
@@ -18,8 +19,8 @@ import net.minecraftforge.common.config.Configuration;
  *
  * @author Sunstrike <sun@sunstrike.io>
  */
-public class CoreConfig
-{
+public class CoreConfig {
+
     static Configuration config;
     public static File configFolder;
 
@@ -28,62 +29,57 @@ public class CoreConfig
      *
      * @param mainConfigFolder Configuration folder (as a Java File)
      */
-    public static void loadConfiguration (File mainConfigFolder)
-    {
+    public static void loadConfiguration(File mainConfigFolder) {
         logger.info("Loading configuration from disk.");
-        try
-        {
+        try {
             configFolder = new File(mainConfigFolder.getCanonicalPath(), "SlimeKnights");
-            if (!configFolder.exists())
-                configFolder.mkdirs();
-        }
-        catch (IOException e)
-        {
+            if (!configFolder.exists()) configFolder.mkdirs();
+        } catch (IOException e) {
             logger.error("Error getting/creating Mantle configuration directory: " + e.getMessage());
         }
 
         config = new Configuration(new File(configFolder, (modId + ".cfg")));
         config.load();
 
-        silenceEnvChecks = config.get("Environment", "unsupportedLogging", silenceEnvChecks).getBoolean(silenceEnvChecks);
+        silenceEnvChecks = config.get("Environment", "unsupportedLogging", silenceEnvChecks)
+                .getBoolean(silenceEnvChecks);
 
-        debug_enableConsole = config.get("DebugHelpers", "enableConsole", debug_enableConsole).getBoolean(debug_enableConsole);
+        debug_enableConsole = config.get("DebugHelpers", "enableConsole", debug_enableConsole)
+                .getBoolean(debug_enableConsole);
         debug_enableChat = config.get("DebugHelpers", "enableChat", debug_enableChat).getBoolean(debug_enableChat);
 
         dumpBiomeIDs = config.get("DebugHelpers", "Dump BIOME ID's in log", dumpBiomeIDs).getBoolean(dumpBiomeIDs);
         dumpPotionIDs = config.get("DebugHelpers", "Dump POTION ID's in log", dumpPotionIDs).getBoolean(dumpPotionIDs);
-        dumpEnchantIDs = config.get("DebugHelpers", "Dump ENCHANT ID's in log", dumpEnchantIDs).getBoolean(dumpEnchantIDs);
-        dumpRecipeConflicts = config.get("DebugHelpers", "Dump Recipe Conflicts in log when server starts",dumpRecipeConflicts).getBoolean(dumpRecipeConflicts);
+        dumpEnchantIDs = config.get("DebugHelpers", "Dump ENCHANT ID's in log", dumpEnchantIDs)
+                .getBoolean(dumpEnchantIDs);
+        dumpRecipeConflicts = config
+                .get("DebugHelpers", "Dump Recipe Conflicts in log when server starts", dumpRecipeConflicts)
+                .getBoolean(dumpRecipeConflicts);
 
-        //check for debugging overrides in system environment
+        // check for debugging overrides in system environment
         checkSysOverrides();
-        if(config.hasChanged())
-            config.save();
+        if (config.hasChanged()) config.save();
         logger.info("Configuration load completed.");
     }
 
     /**
-     * Checks for MANTLE_DBGCONSOLE/CHAT config overrides in system environment for compile time testing, and other dev work.
+     * Checks for MANTLE_DBGCONSOLE/CHAT config overrides in system environment for compile time testing, and other dev
+     * work.
      **/
-    private static void checkSysOverrides ()
-    {
-        if (System.getenv("MANTLE_DBGCONSOLE") != null)
-        {
+    private static void checkSysOverrides() {
+        if (System.getenv("MANTLE_DBGCONSOLE") != null) {
             debug_enableConsole = true;
             logger.info("Mantle Console debugging override enabled via system properties.");
         }
-        if (System.getenv("MANTLE_DBGCHAT") != null)
-        {
+        if (System.getenv("MANTLE_DBGCHAT") != null) {
             debug_enableChat = true;
             logger.info("Mantle Chat debugging override enabled via system properties.");
         }
     }
 
-    public static void loadBookLocations ()
-    {
-        for (File f : configFolder.listFiles())
-        {
-            if(f.isFile() && FilenameUtils.getExtension(f.getAbsolutePath()).equalsIgnoreCase("zip"))
+    public static void loadBookLocations() {
+        for (File f : configFolder.listFiles()) {
+            if (f.isFile() && FilenameUtils.getExtension(f.getAbsolutePath()).equalsIgnoreCase("zip"))
                 ZipLoader.loadZip(f);
         }
     }
@@ -99,6 +95,5 @@ public class CoreConfig
     public static boolean dumpPotionIDs = false;
     public static boolean dumpEnchantIDs = false;
     public static boolean dumpRecipeConflicts = false;
-
 
 }

@@ -12,9 +12,7 @@ public class LogManager {
     private static final boolean useLog4j2;
 
     /*
-     * Detect the presence of log4j2.
-     *
-     * If it's present, we can assume we should be using the damn thing.
+     * Detect the presence of log4j2. If it's present, we can assume we should be using the damn thing.
      */
     static {
         boolean l4j = false;

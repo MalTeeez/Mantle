@@ -10,8 +10,7 @@ import org.apache.logging.log4j.Logger;
  *
  * @author Sunstrike <sun@sunstrike.io>
  */
-public final class CoreRepo
-{
+public final class CoreRepo {
 
     public static final String modId = "GRADLETOKEN_MODID";
     public static final String modName = "GRADLETOKEN_MODNAME";

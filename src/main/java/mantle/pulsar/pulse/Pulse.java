@@ -8,7 +8,7 @@ import java.lang.annotation.*;
  * @author Arkan <arkan@drakon.io>
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE})
+@Target({ ElementType.TYPE })
 @Documented
 public @interface Pulse {
 

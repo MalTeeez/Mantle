@@ -4,6 +4,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class ItemStackWrapper extends ItemMetaWrapper {
+
     public final Integer stacksize;
 
     public ItemStackWrapper(Item item, Integer meta, Integer stacksize) {

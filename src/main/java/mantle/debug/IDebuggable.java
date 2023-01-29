@@ -9,9 +9,8 @@ import net.minecraft.entity.player.EntityPlayer;
  *
  * @author Sunstrike <sun@sunstrike.io>
  */
-public interface IDebuggable
-{
+public interface IDebuggable {
 
-    public DebugData getDebugInfo (EntityPlayer player);
+    public DebugData getDebugInfo(EntityPlayer player);
 
 }

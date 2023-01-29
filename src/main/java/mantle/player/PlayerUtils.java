@@ -8,14 +8,12 @@ import net.minecraft.util.ChatComponentText;
  * 
  * @author progwml6
  */
-public class PlayerUtils
-{
+public class PlayerUtils {
 
     /**
      * Sends a given message to a specific player (due to 1.7 axing addChatMessage())
      */
-    public static void sendChatMessage (EntityPlayer p, String message)
-    {
+    public static void sendChatMessage(EntityPlayer p, String message) {
         if (p != null && message != null && !message.isEmpty())
             p.addChatComponentMessage(new ChatComponentText(message));
     }

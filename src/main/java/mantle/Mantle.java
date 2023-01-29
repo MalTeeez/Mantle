@@ -5,7 +5,6 @@ import static mantle.lib.CoreRepo.modId;
 import static mantle.lib.CoreRepo.modName;
 import static mantle.lib.CoreRepo.modVersion;
 
-import cpw.mods.fml.common.event.FMLServerStartedEvent;
 import mantle.books.BookData;
 import mantle.books.BookDataStore;
 import mantle.common.IDDumps;
@@ -14,6 +13,7 @@ import mantle.items.Manual;
 import mantle.lib.CoreConfig;
 import mantle.lib.CoreRepo;
 import mantle.lib.environment.EnvironmentChecks;
+import mantle.utils.CraftingHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -21,11 +21,9 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartedEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
-import mantle.utils.CraftingHandler;
-
-import java.io.File;
 
 /**
  * Mantle
@@ -35,8 +33,8 @@ import java.io.File;
  * @author Sunstrike <sun@sunstrike.io>
  */
 @Mod(modid = modId, name = modName, version = modVersion, dependencies = "required-after:Forge@[10.13,)")
-public class Mantle
-{
+public class Mantle {
+
     /* Instance of this mod, used for grabbing prototype fields */
     @Instance("Mantle")
     public static Mantle instance;
@@ -45,13 +43,13 @@ public class Mantle
 
     public static MProxyCommon proxy;
     public static Manual mantleBook;
+
     /**
      * Constructor
      *
      * EnvChecks invoked here so they run as soon as possible to enhance crash reports that may happen in preinit.
      */
-    public Mantle()
-    {
+    public Mantle() {
         EnvironmentChecks.verifyEnvironmentSanity();
     }
 
@@ -63,8 +61,7 @@ public class Mantle
      * @param evt The FMLPreInitializationEvent from FML
      */
     @EventHandler
-    public void preInit (FMLPreInitializationEvent evt)
-    {
+    public void preInit(FMLPreInitializationEvent evt) {
         logger.info("Mantle (" + modVersion + ") -- Preparing for launch.");
         logger.info("Entering preinitialization phase.");
         CoreConfig.loadConfiguration(evt.getModConfigurationDirectory());
@@ -84,8 +81,7 @@ public class Mantle
      * @param evt The FMLInitializationEvent from FML
      */
     @EventHandler
-    public void Init (FMLInitializationEvent evt)
-    {
+    public void Init(FMLInitializationEvent evt) {
         logger.info("Entering initialization phase.");
         proxy.registerRenderer();
     }
@@ -98,8 +94,7 @@ public class Mantle
      * @param evt The FMLPostInitializationEvent from FML
      */
     @EventHandler
-    public void postInit (FMLPostInitializationEvent evt)
-    {
+    public void postInit(FMLPostInitializationEvent evt) {
         logger.info("Entering postinitialization phase.");
         proxy.readManuals();
         BookData data = new BookData();
@@ -111,9 +106,9 @@ public class Mantle
         CoreConfig.loadBookLocations();
         IDDumps.dump();
     }
+
     @EventHandler
-    public void serverStart(FMLServerStartedEvent evt)
-    {
+    public void serverStart(FMLServerStartedEvent evt) {
         CraftingHandler.logConflicts();
     }
 

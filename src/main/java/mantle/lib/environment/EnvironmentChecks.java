@@ -22,55 +22,44 @@ import cpw.mods.fml.relauncher.Side;
  *
  * @author Sunstrike <sun@sunstrike.io>
  */
-public class EnvironmentChecks
-{
+public class EnvironmentChecks {
 
-    private EnvironmentChecks()
-    {
-    } // Singleton
+    private EnvironmentChecks() {} // Singleton
 
     // Usable by other mods to detect Optifine.
     public static boolean hasOptifine = false;
 
     /**
-     * Checks for conflicting stuff in environment; adds callable to any crash logs if so.
-     * Note: This code adds additional data to crashlogs. It does not trigger any crashes.
+     * Checks for conflicting stuff in environment; adds callable to any crash logs if so. Note: This code adds
+     * additional data to crashlogs. It does not trigger any crashes.
      */
     @SuppressWarnings("rawtypes")
-    public static void verifyEnvironmentSanity ()
-    {
+    public static void verifyEnvironmentSanity() {
         List<String> modIds = new ArrayList<String>();
 
-        if (FMLCommonHandler.instance().getSide() == Side.CLIENT && FMLClientHandler.instance().hasOptifine() || Loader.isModLoaded("optifine"))
-        {
-            if (!CoreConfig.silenceEnvChecks)
-                logger.error("[Environment Checks] Optifine detected. This may cause issues due to base edits or ASM usage.");
+        if (FMLCommonHandler.instance().getSide() == Side.CLIENT && FMLClientHandler.instance().hasOptifine()
+                || Loader.isModLoaded("optifine")) {
+            if (!CoreConfig.silenceEnvChecks) logger.error(
+                    "[Environment Checks] Optifine detected. This may cause issues due to base edits or ASM usage.");
             hasOptifine = true;
             modIds.add("optifine");
         }
 
-        try
-        {
+        try {
             Class cl = Class.forName("org.bukkit.Bukkit");
-            if (cl != null)
-            {
-                if (!CoreConfig.silenceEnvChecks)
-                    logger.error("[Environment Checks] Bukkit implementation detected. This may cause issues. Bukkit implementations include Craftbukkit and Cauldron(MCPC+).");
+            if (cl != null) {
+                if (!CoreConfig.silenceEnvChecks) logger.error(
+                        "[Environment Checks] Bukkit implementation detected. This may cause issues. Bukkit implementations include Craftbukkit and Cauldron(MCPC+).");
                 modIds.add("bukkit");
             }
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             // No Bukkit in environment.
         }
 
-        if (modIds.size() == 0)
-        {
+        if (modIds.size() == 0) {
             ICrashCallable callable = new CallableSuppConfig(modId);
             FMLCommonHandler.instance().registerCrashCallable(callable);
-        }
-        else
-        {
+        } else {
             ICrashCallable callable = new CallableUnsuppConfig(modId, modIds);
             FMLCommonHandler.instance().registerCrashCallable(callable);
         }

@@ -2,10 +2,13 @@ package mantle.utils;
 
 import static mantle.lib.CoreRepo.logger;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import cpw.mods.fml.common.registry.GameRegistry;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import mantle.lib.CoreConfig;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
@@ -15,18 +18,20 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 public class CraftingHandler {
+
     private static boolean ia1NG;
 
-    public static void logConflicts () {
+    public static void logConflicts() {
 
-        //GameRegistry.addShapelessRecipe(new ItemStack(Items.diamond_hoe), Blocks.planks, Items.stick, Items.chainmail_boots);
-        //GameRegistry.addShapelessRecipe(new ItemStack(Items.apple), Blocks.planks, Items.stick, Items.chainmail_boots);
+        // GameRegistry.addShapelessRecipe(new ItemStack(Items.diamond_hoe), Blocks.planks, Items.stick,
+        // Items.chainmail_boots);
+        // GameRegistry.addShapelessRecipe(new ItemStack(Items.apple), Blocks.planks, Items.stick,
+        // Items.chainmail_boots);
         if (CoreConfig.dumpRecipeConflicts) {
             for (Map.Entry<IRecipe, List<IRecipe>> me : getPotentialConflicts().entrySet()) {
                 String s = "";
@@ -38,7 +43,7 @@ public class CraftingHandler {
         }
     }
 
-    public static Map<IRecipe, List<IRecipe>> getPotentialConflicts () {
+    public static Map<IRecipe, List<IRecipe>> getPotentialConflicts() {
         logger.info("dumping recipe conflicts to log this can take a while");
         Map<IRecipe, List<IRecipe>> conflicts = Maps.newHashMap();
         CraftingManager inst = CraftingManager.getInstance();
@@ -78,7 +83,7 @@ public class CraftingHandler {
         return conflicts;
     }
 
-    private static boolean compare (IRecipe i1, IRecipe i2) {
+    private static boolean compare(IRecipe i1, IRecipe i2) {
         if (areItemStacksEqual(i1.getRecipeOutput(), i2.getRecipeOutput())) {
             return false;
         }
@@ -93,7 +98,7 @@ public class CraftingHandler {
             ia1 = ((ShapedRecipes) i1).recipeItems.clone();
         } else if (i1 instanceof ShapelessRecipes) {
             il1 = new ArrayList<ItemStack>(((ShapelessRecipes) i1).recipeItems);
-            //logger.error("SL Recipe: \n" + print(i1));
+            // logger.error("SL Recipe: \n" + print(i1));
             is1l = true;
         } else if (i1 instanceof ShapedOreRecipe) {
             Object[] o = ((ShapedOreRecipe) i1).getInput();
@@ -238,11 +243,11 @@ public class CraftingHandler {
                 logger.error(e.getMessage(), e);
             }
         }
-        //logger.error("CONFLICT SET: \n" + print(i1) + print(i2));
+        // logger.error("CONFLICT SET: \n" + print(i1) + print(i2));
         return true;
     }
 
-    private static String print (IRecipe i1) {
+    private static String print(IRecipe i1) {
         String out = "";
         if (i1 instanceof ShapedRecipes) {
             out += "SHAPED " + toStr(i1.getRecipeOutput()) + "\n";
@@ -303,27 +308,27 @@ public class CraftingHandler {
         return out;
     }
 
-    private static String toStr (ItemStack is) {
+    private static String toStr(ItemStack is) {
         return GameRegistry.findUniqueIdentifierFor(((ItemStack) is).getItem()) + " " + ((ItemStack) is).toString();
     }
 
-    public static boolean areItemStacksEqual (ItemStack a, ItemStack b) {
+    public static boolean areItemStacksEqual(ItemStack a, ItemStack b) {
         if ((a == null || b == null) && !(a == null && b == null)) {
             return false;
         }
         if ((a == null && b == null)) {
             return true;
         }
-        return a.stackSize != b.stackSize
-                ? false
-                : (a.getItem() != b.getItem()
-                           ? false
-                           : (compdamage(a, b)
-                                      ? false
-                                      : (a.stackTagCompound == null && b.stackTagCompound != null ? false : a.stackTagCompound == null || a.stackTagCompound.equals(b.stackTagCompound))));
+        return a.stackSize != b.stackSize ? false
+                : (a.getItem() != b.getItem() ? false
+                        : (compdamage(a, b) ? false
+                                : (a.stackTagCompound == null && b.stackTagCompound != null ? false
+                                        : a.stackTagCompound == null
+                                                || a.stackTagCompound.equals(b.stackTagCompound))));
     }
 
-    public static boolean compdamage (ItemStack a, ItemStack b) {
-        return a.getItemDamage() != b.getItemDamage() || a.getItemDamage() == OreDictionary.WILDCARD_VALUE || b.getItemDamage() == OreDictionary.WILDCARD_VALUE;
+    public static boolean compdamage(ItemStack a, ItemStack b) {
+        return a.getItemDamage() != b.getItemDamage() || a.getItemDamage() == OreDictionary.WILDCARD_VALUE
+                || b.getItemDamage() == OreDictionary.WILDCARD_VALUE;
     }
 }

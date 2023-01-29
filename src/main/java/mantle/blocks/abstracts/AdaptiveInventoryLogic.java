@@ -3,25 +3,22 @@ package mantle.blocks.abstracts;
 import java.util.Random;
 
 import mantle.blocks.iface.IFacingLogic;
+
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import cpw.mods.fml.common.FMLCommonHandler;
 
-public abstract class AdaptiveInventoryLogic extends InventoryLogic implements IFacingLogic
-{
+public abstract class AdaptiveInventoryLogic extends InventoryLogic implements IFacingLogic {
+
     Random random = new Random();
     protected int inventorySize;
 
-    public AdaptiveInventoryLogic()
-    {
+    public AdaptiveInventoryLogic() {
         super(0);
     }
 
-    protected void adjustInventory (int size, boolean forceAdjust)
-    {
-        if (size != inventorySize || forceAdjust)
-        {
+    protected void adjustInventory(int size, boolean forceAdjust) {
+        if (size != inventorySize || forceAdjust) {
             inventorySize = size;
 
             ItemStack[] tempInv = inventory;
@@ -29,13 +26,10 @@ public abstract class AdaptiveInventoryLogic extends InventoryLogic implements I
             int invLength = tempInv.length > inventory.length ? inventory.length : tempInv.length;
             System.arraycopy(tempInv, 0, inventory, 0, invLength);
 
-            if (tempInv.length > inventory.length)
-            {
-                for (int i = inventory.length; i < tempInv.length; i++)
-                {
+            if (tempInv.length > inventory.length) {
+                for (int i = inventory.length; i < tempInv.length; i++) {
                     ItemStack stack = tempInv[i];
-                    if (stack != null)
-                    {
+                    if (stack != null) {
                         float jumpX = random.nextFloat() * 0.8F + 0.1F;
                         float jumpY = random.nextFloat() * 0.8F + 0.1F;
                         float jumpZ = random.nextFloat() * 0.8F + 0.1F;
@@ -43,44 +37,45 @@ public abstract class AdaptiveInventoryLogic extends InventoryLogic implements I
                         int offsetX = 0;
                         int offsetY = 0;
                         int offsetZ = 0;
-                        switch (getTossDirection())
-                        {
-                        case 0: // -y
-                            offsetY--;
-                            break;
-                        case 1: // +y
-                            offsetY++;
-                            break;
-                        case 2: // +z
-                            offsetZ--;
-                            break;
-                        case 3: // -z
-                            offsetZ++;
-                            break;
-                        case 4: // +x
-                            offsetX--;
-                            break;
-                        case 5: // -x
-                            offsetX++;
-                            break;
+                        switch (getTossDirection()) {
+                            case 0: // -y
+                                offsetY--;
+                                break;
+                            case 1: // +y
+                                offsetY++;
+                                break;
+                            case 2: // +z
+                                offsetZ--;
+                                break;
+                            case 3: // -z
+                                offsetZ++;
+                                break;
+                            case 4: // +x
+                                offsetX--;
+                                break;
+                            case 5: // -x
+                                offsetX++;
+                                break;
                         }
 
-                        while (stack.stackSize > 0)
-                        {
+                        while (stack.stackSize > 0) {
                             int itemSize = random.nextInt(21) + 10;
 
-                            if (itemSize > stack.stackSize)
-                            {
+                            if (itemSize > stack.stackSize) {
                                 itemSize = stack.stackSize;
                             }
 
                             stack.stackSize -= itemSize;
-                            EntityItem entityitem = new EntityItem(worldObj, (double) ((float) xCoord + jumpX + offsetX), (double) ((float) yCoord + jumpY),
-                                    (double) ((float) zCoord + jumpZ + offsetZ), new ItemStack(stack.getItem(), itemSize, stack.getItemDamage()));
+                            EntityItem entityitem = new EntityItem(
+                                    worldObj,
+                                    (double) ((float) xCoord + jumpX + offsetX),
+                                    (double) ((float) yCoord + jumpY),
+                                    (double) ((float) zCoord + jumpZ + offsetZ),
+                                    new ItemStack(stack.getItem(), itemSize, stack.getItemDamage()));
 
-                            if (stack.hasTagCompound())
-                            {
-                                entityitem.getEntityItem().setTagCompound((NBTTagCompound) stack.getTagCompound().copy());
+                            if (stack.hasTagCompound()) {
+                                entityitem.getEntityItem()
+                                        .setTagCompound((NBTTagCompound) stack.getTagCompound().copy());
                             }
 
                             float offset = 0.05F;
@@ -95,8 +90,7 @@ public abstract class AdaptiveInventoryLogic extends InventoryLogic implements I
         }
     }
 
-    public int getTossDirection ()
-    {
+    public int getTossDirection() {
         return getRenderDirection();
     }
 }

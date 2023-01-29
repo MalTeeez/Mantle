@@ -10,7 +10,7 @@ import java.lang.annotation.*;
  * @author Arkan <arkan@drakon.io>
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD})
+@Target({ ElementType.FIELD })
 @Documented
 @Deprecated
 public @interface PulseProxy {

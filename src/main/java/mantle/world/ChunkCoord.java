@@ -2,65 +2,56 @@ package mantle.world;
 
 import java.io.Serializable;
 
-import mantle.world.CoordTuple;
 import net.minecraft.world.chunk.Chunk;
 
 /**
- * Standardized implementation for representing and manipulating Chunk Coordinates. Provides standard Java Collection interaction.
- * From COFH LIB(modified to use mantle's coordtuple instead)
+ * Standardized implementation for representing and manipulating Chunk Coordinates. Provides standard Java Collection
+ * interaction. From COFH LIB(modified to use mantle's coordtuple instead)
+ * 
  * @author King Lemming
  * 
  */
-public final class ChunkCoord implements Comparable<ChunkCoord>, Serializable
-{
+public final class ChunkCoord implements Comparable<ChunkCoord>, Serializable {
 
     public int chunkX;
     public int chunkZ;
 
-    public ChunkCoord(Chunk chunk)
-    {
+    public ChunkCoord(Chunk chunk) {
 
         this.chunkX = chunk.xPosition;
         this.chunkZ = chunk.zPosition;
     }
 
-    public ChunkCoord(CoordTuple c)
-    {
+    public ChunkCoord(CoordTuple c) {
 
         this(c.x >> 4, c.z >> 4);
     }
 
-    public ChunkCoord(int x, int z)
-    {
+    public ChunkCoord(int x, int z) {
 
         this.chunkX = x;
         this.chunkZ = z;
     }
 
-    public int getCenterX ()
-    {
+    public int getCenterX() {
 
         return (this.chunkX << 4) + 8;
     }
 
-    public int getCenterZ ()
-    {
+    public int getCenterZ() {
 
         return (this.chunkZ << 4) + 8;
     }
 
-    public ChunkCoord copy ()
-    {
+    public ChunkCoord copy() {
 
         return new ChunkCoord(chunkX, chunkZ);
     }
 
     @Override
-    public boolean equals (Object obj)
-    {
+    public boolean equals(Object obj) {
 
-        if (!(obj instanceof ChunkCoord))
-        {
+        if (!(obj instanceof ChunkCoord)) {
             return false;
         }
         ChunkCoord other = (ChunkCoord) obj;
@@ -68,8 +59,7 @@ public final class ChunkCoord implements Comparable<ChunkCoord>, Serializable
     }
 
     @Override
-    public int hashCode ()
-    {
+    public int hashCode() {
 
         int hash = chunkX;
         hash *= 31 + this.chunkZ;
@@ -77,16 +67,14 @@ public final class ChunkCoord implements Comparable<ChunkCoord>, Serializable
     }
 
     @Override
-    public String toString ()
-    {
+    public String toString() {
 
         return "[" + this.chunkX + ", " + this.chunkZ + "]";
     }
 
     /* Comparable */
     @Override
-    public int compareTo (ChunkCoord other)
-    {
+    public int compareTo(ChunkCoord other) {
 
         return this.chunkX == other.chunkX ? this.chunkZ - other.chunkZ : this.chunkX - other.chunkX;
     }

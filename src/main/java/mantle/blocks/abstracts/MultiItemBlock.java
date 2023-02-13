@@ -17,7 +17,7 @@ import net.minecraft.util.MathHelper;
 public class MultiItemBlock extends ItemBlock {
 
     private String blockType[];
-    @SerializedName("secondUnlocalizedName")
+    @SerializedName(value = "secondUnlocalizedName")
     private String unlocalizedName;
     private String append;
     private int specialIndex[] = { -1, -1 };

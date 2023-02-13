@@ -2,6 +2,8 @@ package mantle.blocks.abstracts;
 
 import static mantle.lib.CoreRepo.logger;
 
+import com.google.gson.annotations.SerializedName;
+
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -15,21 +17,22 @@ import net.minecraft.util.MathHelper;
 public class MultiItemBlock extends ItemBlock {
 
     private String blockType[];
-    private String unlocalizedNameSecond;
+    @SerializedName("secondUnlocalizedName")
+    private String unlocalizedName;
     private String append;
     private int specialIndex[] = { -1, -1 };
 
     public MultiItemBlock(Block b, String itemBlockUnlocalizedName, String[] blockTypes) {
         super(b);
-        if (itemBlockUnlocalizedName.isEmpty()) this.unlocalizedNameSecond = super.getUnlocalizedName();
-        else this.unlocalizedNameSecond = itemBlockUnlocalizedName;
+        if (itemBlockUnlocalizedName.isEmpty()) this.unlocalizedName = super.getUnlocalizedName();
+        else this.unlocalizedName = itemBlockUnlocalizedName;
         this.blockType = blockTypes;
         this.append = "";
     }
 
     public MultiItemBlock(Block b, String itemBlockUnlocalizedName, String appendToEnd, String[] blockTypes) {
         super(b);
-        this.unlocalizedNameSecond = itemBlockUnlocalizedName;
+        this.unlocalizedName = itemBlockUnlocalizedName;
         this.blockType = blockTypes;
         this.append = "." + appendToEnd;
     }
@@ -52,7 +55,7 @@ public class MultiItemBlock extends ItemBlock {
         int sbIndex = (specialIndex[1] > -1) ? pos : (specialIndex[1] - pos);
         if (sbIndex < 0) sbIndex = -1 * sbIndex;
         try {
-            return (new StringBuilder()).append(unlocalizedNameSecond).append(".").append(blockType[sbIndex - 1])
+            return (new StringBuilder()).append(unlocalizedName).append(".").append(blockType[sbIndex - 1])
                     .append(append).toString();
         } catch (ArrayIndexOutOfBoundsException ex) {
             logger.warn("[MultiItemBlock] Caught array index error in getUnlocalizedName: " + ex.getMessage());

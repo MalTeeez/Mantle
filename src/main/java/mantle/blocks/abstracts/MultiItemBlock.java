@@ -7,6 +7,8 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * 
  * @author progwml6 base class for itemBlocks with different unlocalized names based on metadata
@@ -15,6 +17,7 @@ import net.minecraft.util.MathHelper;
 public class MultiItemBlock extends ItemBlock {
 
     private String blockType[];
+    @SerializedName(value = "secondUnlocalizedName")
     private String unlocalizedName;
     private String append;
     private int specialIndex[] = { -1, -1 };

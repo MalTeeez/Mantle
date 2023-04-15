@@ -7,6 +7,9 @@ import mantle.lib.CoreConfig;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.potion.Potion;
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraftforge.common.DimensionManager;
+
+import java.util.Arrays;
 
 public class IDDumps {
 
@@ -32,6 +35,12 @@ public class IDDumps {
 
                     logger.info("Enchantment ID & name: " + e.effectId + " " + e.getName());
                 }
+            }
+        }
+        if (CoreConfig.dumpEnchantIDs && CoreConfig.dumpPotionIDs && oreConfig.dumpBiomeIDs) {
+            Integer[] dims = Arrays.stream(DimensionManager.getStaticDimensionIDs()).sorted().toArray(Integer[]::new);
+            for (int i = 0; i < dims.length; i++) {
+                logger.info("Dimension ID: " + dims[i]);
             }
         }
     }

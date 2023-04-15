@@ -24,7 +24,6 @@ public class IDDumps {
         if (CoreConfig.dumpPotionIDs) {
             for (Potion p : Potion.potionTypes) {
                 if (p != null && p.getName() != null) {
-
                     logger.info("Potion ID & name: " + p.getId() + " " + p.getName());
                 }
             }
@@ -32,7 +31,6 @@ public class IDDumps {
         if (CoreConfig.dumpEnchantIDs) {
             for (Enchantment e : Enchantment.enchantmentsList) {
                 if (e != null && e.getName() != null) {
-
                     logger.info("Enchantment ID & name: " + e.effectId + " " + e.getName());
                 }
             }

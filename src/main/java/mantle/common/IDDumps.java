@@ -35,7 +35,7 @@ public class IDDumps {
                 }
             }
         }
-        if (CoreConfig.dumpEnchantIDs && CoreConfig.dumpPotionIDs && oreConfig.dumpBiomeIDs) {
+        if (CoreConfig.dumpEnchantIDs && CoreConfig.dumpPotionIDs && CoreConfig.dumpBiomeIDs) {
             Integer[] dims = Arrays.stream(DimensionManager.getStaticDimensionIDs()).sorted().toArray(Integer[]::new);
             for (int i = 0; i < dims.length; i++) {
                 logger.info("Dimension ID: " + dims[i]);
